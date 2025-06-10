@@ -2,22 +2,11 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ArrowDown, Mail, ExternalLink, Sparkles } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const Hero: React.FC = () => {
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href)
-    if (element) {
-      const navHeight = 80
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
-      window.scrollTo({
-        top: elementPosition - navHeight,
-        behavior: 'smooth'
-      })
-    }
-  }
-
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
         <motion.div
           initial={{ opacity: 0 }}
@@ -33,13 +22,13 @@ const Hero: React.FC = () => {
             className="flex items-center justify-center gap-2 text-muted-foreground"
           >
             <Sparkles className="h-4 w-4" />
-            <span className="text-sm font-medium tracking-wider uppercase">Welcome to my portfolio</span>
+            <span className="text-sm font-medium tracking-wider uppercase text-body">Welcome to my portfolio</span>
             <Sparkles className="h-4 w-4" />
           </motion.div>
 
           {/* Main heading */}
           <motion.h1 
-            className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight"
+            className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight text-display"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -58,7 +47,7 @@ const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.0 }}
             >
-              Ayush Jain
+              Ayush
             </motion.span>
           </motion.h1>
 
@@ -69,13 +58,15 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
           >
-            <p className="text-xl sm:text-2xl text-primary font-semibold">
-              CSE Gold Medalist (CGPA 9.8) | IIT Bombay '22
+            <p className="text-xl sm:text-2xl text-primary font-semibold text-display">
+              CSE Graduate (CGPA 8.0) | NSUT Delhi '22
             </p>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed text-body">
               Passionate software engineer with experience at top tech companies including{' '}
               <span className="text-foreground font-semibold">Apple</span> and{' '}
-              <span className="text-foreground font-semibold">Uber</span>
+              <span className="text-foreground font-semibold">Uber</span>. 
+              Research focus in <span className="text-foreground font-semibold">Mathematical Analysis</span> and{' '}
+              <span className="text-foreground font-semibold">Data Science</span>.
             </p>
           </motion.div>
 
@@ -88,27 +79,31 @@ const Hero: React.FC = () => {
           >
             <Button
               size="lg"
-              onClick={() => scrollToSection('#contact')}
-              className="group bg-white text-black hover:bg-white/90 px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+              asChild
+              className="group bg-white text-black hover:bg-white/90 px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl text-display"
             >
-              <Mail className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
-              Get In Touch
-              <motion.div
-                className="absolute inset-0 rounded-full bg-white/20"
-                initial={{ scale: 0, opacity: 0 }}
-                whileHover={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
+              <Link to="/contact">
+                <Mail className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                Get In Touch
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-white/20"
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileHover={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </Link>
             </Button>
             
             <Button
               variant="outline"
               size="lg"
-              onClick={() => scrollToSection('#about')}
-              className="group border-white/20 hover:border-white/40 hover:bg-white/5 px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+              asChild
+              className="group border-white/20 hover:border-white/40 hover:bg-white/5 px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 text-display"
             >
-              Learn More
-              <ExternalLink className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              <Link to="/about">
+                Learn More
+                <ExternalLink className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
             </Button>
           </motion.div>
         </motion.div>
@@ -120,15 +115,20 @@ const Hero: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 2 }}
         >
-          <motion.button
-            onClick={() => scrollToSection('#about')}
-            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 group"
+          <motion.div
+            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 group cursor-pointer"
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
+            onClick={() => {
+              const aboutSection = document.querySelector('#about')
+              if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: 'smooth' })
+              }
+            }}
           >
-            <span className="text-sm font-medium">Scroll to explore</span>
+            <span className="text-sm font-medium text-body">Scroll to explore</span>
             <ArrowDown className="h-5 w-5 group-hover:translate-y-1 transition-transform duration-300" />
-          </motion.button>
+          </motion.div>
         </motion.div>
       </div>
 

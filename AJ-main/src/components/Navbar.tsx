@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Link, useLocation } from 'react-router-dom'
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const location = useLocation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,25 +19,12 @@ const Navbar: React.FC = () => {
   }, [])
 
   const navItems = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About' },
-    { href: '#education', label: 'Education' },
-    { href: '#experience', label: 'Experience' },
-    { href: '#contact', label: 'Contact' },
+    { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
+    { href: '/education', label: 'Education' },
+    { href: '/experience', label: 'Experience' },
+    { href: '/contact', label: 'Contact' },
   ]
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href)
-    if (element) {
-      const navHeight = 80
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
-      window.scrollTo({
-        top: elementPosition - navHeight,
-        behavior: 'smooth'
-      })
-    }
-    setIsMobileMenuOpen(false)
-  }
 
   return (
     <motion.nav
@@ -56,12 +45,8 @@ const Navbar: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <a
-              href="#home"
-              onClick={(e) => {
-                e.preventDefault()
-                scrollToSection('#home')
-              }}
+            <Link
+              to="/"
               className="text-2xl font-bold gradient-text hover:opacity-80 transition-opacity duration-300"
             >
               <motion.span
@@ -69,9 +54,9 @@ const Navbar: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                Ayush Jain
+                Ayush
               </motion.span>
-            </a>
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -86,14 +71,24 @@ const Navbar: React.FC = () => {
                 >
                   <Button
                     variant="ghost"
-                    onClick={() => scrollToSection(item.href)}
-                    className="text-foreground/80 hover:text-foreground hover:bg-white/5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 relative group"
+                    asChild
+                    className={`text-foreground/80 hover:text-foreground hover:bg-white/5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 relative group ${
+                      location.pathname === item.href ? 'text-foreground bg-white/5' : ''
+                    }`}
                   >
-                    {item.label}
-                    <motion.div
-                      className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-white/0 via-white/60 to-white/0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
-                      layoutId="navbar-indicator"
-                    />
+                    <Link to={item.href}>
+                      {item.label}
+                      <motion.div
+                        className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-white/0 via-white/60 to-white/0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
+                        layoutId="navbar-indicator"
+                      />
+                      {location.pathname === item.href && (
+                        <motion.div
+                          className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-white/0 via-white/80 to-white/0"
+                          layoutId="active-indicator"
+                        />
+                      )}
+                    </Link>
                   </Button>
                 </motion.div>
               ))}
@@ -139,10 +134,15 @@ const Navbar: React.FC = () => {
                 >
                   <Button
                     variant="ghost"
-                    onClick={() => scrollToSection(item.href)}
-                    className="w-full text-left justify-start text-foreground/80 hover:text-foreground hover:bg-white/5 px-4 py-3 rounded-lg text-base font-medium transition-all duration-300"
+                    asChild
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`w-full text-left justify-start text-foreground/80 hover:text-foreground hover:bg-white/5 px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
+                      location.pathname === item.href ? 'text-foreground bg-white/5' : ''
+                    }`}
                   >
-                    {item.label}
+                    <Link to={item.href}>
+                      {item.label}
+                    </Link>
                   </Button>
                 </motion.div>
               ))}

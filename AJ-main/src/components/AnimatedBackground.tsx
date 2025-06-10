@@ -111,7 +111,7 @@ const AnimatedBackground: React.FC = () => {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute rounded-full bg-white/60"
+          className="absolute rounded-full bg-white/60 dark:bg-white/60 light:bg-rose-400/40"
           style={{
             left: `${particle.x}%`,
             width: `${particle.size}px`,
@@ -132,9 +132,9 @@ const AnimatedBackground: React.FC = () => {
         />
       ))}
 
-      {/* Gradient Orbs */}
+      {/* Gradient Orbs - Dark Theme */}
       <motion.div
-        className="absolute w-96 h-96 rounded-full opacity-20"
+        className="absolute w-96 h-96 rounded-full opacity-20 dark:block light:hidden"
         style={{
           top: '10%',
           left: '-15%',
@@ -154,7 +154,7 @@ const AnimatedBackground: React.FC = () => {
       />
 
       <motion.div
-        className="absolute w-80 h-80 rounded-full opacity-15"
+        className="absolute w-80 h-80 rounded-full opacity-15 dark:block light:hidden"
         style={{
           top: '50%',
           right: '-20%',
@@ -174,8 +174,71 @@ const AnimatedBackground: React.FC = () => {
         }}
       />
 
+      {/* Gradient Orbs - Light Theme */}
       <motion.div
-        className="absolute w-64 h-64 rounded-full opacity-10"
+        className="absolute w-96 h-96 rounded-full opacity-10 light:block dark:hidden"
+        style={{
+          top: '10%',
+          left: '-15%',
+          background: 'radial-gradient(circle, rgba(237, 117, 88, 0.3) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+        }}
+        animate={{
+          x: [0, 50, -30, 0],
+          y: [0, -40, 30, 0],
+          scale: [1, 1.2, 0.8, 1],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <motion.div
+        className="absolute w-80 h-80 rounded-full opacity-8 light:block dark:hidden"
+        style={{
+          top: '50%',
+          right: '-20%',
+          background: 'radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+        }}
+        animate={{
+          x: [0, -40, 20, 0],
+          y: [0, 40, -20, 0],
+          scale: [1, 0.8, 1.3, 1],
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 10
+        }}
+      />
+
+      <motion.div
+        className="absolute w-64 h-64 rounded-full opacity-6 light:block dark:hidden"
+        style={{
+          bottom: '5%',
+          left: '40%',
+          background: 'radial-gradient(circle, rgba(237, 117, 88, 0.15) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+        }}
+        animate={{
+          x: [0, 30, -40, 0],
+          y: [0, -30, 40, 0],
+          scale: [1, 1.4, 0.7, 1],
+        }}
+        transition={{
+          duration: 28,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 20
+        }}
+      />
+
+      <motion.div
+        className="absolute w-64 h-64 rounded-full opacity-10 dark:block light:hidden"
         style={{
           bottom: '5%',
           left: '40%',
@@ -197,7 +260,7 @@ const AnimatedBackground: React.FC = () => {
 
       {/* Grid overlay */}
       <div 
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0 opacity-[0.02] dark:opacity-[0.02] light:opacity-[0.01]"
         style={{
           backgroundImage: `
             linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
